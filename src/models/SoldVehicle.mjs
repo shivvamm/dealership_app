@@ -7,7 +7,11 @@ class SoldVehicle {
     }
 
     async getSoldVehicleById(vehicleId) {
-        return this.collection.findOne({ vehicle_id: vehicleId });
+        try {
+            return this.collection.findOne({ vehicle_id: vehicleId });
+        } catch (err) {
+            throw formatError(500, 'Error fetching Vehicle data');
+        }
     }
 }
 

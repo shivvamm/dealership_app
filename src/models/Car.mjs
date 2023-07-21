@@ -7,11 +7,19 @@ class Car {
     }
 
     async getCarById(carId) {
-        return this.collection.findOne({ car_id: carId });
+        try {
+            return this.collection.findOne({ car_id: carId });
+        } catch (err) {
+            throw formatError(500, 'Error fetching car data');
+        }
     }
 
     async getAllCars() {
-        return this.collection.find({}).toArray();
+        try {
+            return this.collection.find({}).toArray();
+        } catch (err) {
+            throw formatError(500, 'Error fetching car data');
+        }
     }
 }
 

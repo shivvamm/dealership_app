@@ -7,7 +7,11 @@ class Deal {
   }
 
   async getDealById(dealId) {
+    try{
     return this.collection.findOne({ deal_id: dealId });
+    }catch (err) {
+      throw formatError(500, 'Error fetching Deal data');
+    }
   }
 }
 

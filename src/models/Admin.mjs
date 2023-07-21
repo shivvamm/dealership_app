@@ -5,7 +5,11 @@ class Admin {
     }
 
     async getAdminById(adminId) {
-        return this.collection.findOne({ admin_id: adminId });
+        try {
+            return this.collection.findOne({ admin_id: adminId });
+        } catch (err) {
+            throw formatError(500, 'Error fetching Admin data');
+        }
     }
 
 }
