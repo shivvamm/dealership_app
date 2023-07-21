@@ -1,55 +1,35 @@
 // app.js
 import express from "express";
-import { MongoClient, ServerApiVersion } from "mongodb";
-import 'dotenv/config';
+import { Double, MongoClient, ServerApiVersion } from "mongodb";
+import { connectDB } from "./config/index.mjs"
+import dotenv from 'dotenv';
 import { Admin, User, Dealership, Deal, Car, SoldVehicle } from "./models/index.mjs"
+
+
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-const uri = "mongodb+srv://admin:1234@cluster0.26qsxtx.mongodb.net";
-const dbName = "car_dealership_db";
 
 
+const db = await connectDB();
+// Attach database object to the route handlers
+app.use((req, res, next) => {
+    req.database = db;
+    next();
+});
 
-const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
-}
-);
+// const adminModel = new Admin(db);
+// const userModel = new User(db);
+// const dealershipModel = new Dealership(db);
+// const dealModel = new Deal(db);
+// const carModel = new Car(db);
+// const soldVehicleModel = new SoldVehicle(db);
 
-const connectToMongoDB = async () => {
-    try {
-        await client.connect();
-        console.log("Connected to MongoDB");
-        const database = await client.db(dbName); // Replace "dbname" with your database name
+app.use(express.json());
 
-        // Attach database object to the route handlers
-        app.use((req, res, next) => {
-            req.database = database;
-            next();
-        });
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
 
-        const adminModel = new Admin(database);
-        const userModel = new User(database);
-        const dealershipModel = new Dealership(database);
-        const dealModel = new Deal(database);
-        const carModel = new Car(database);
-        const soldVehicleModel = new SoldVehicle(database);
-
-        app.use(express.json());
-
-        app.listen(port, () => {
-            console.log(`Server is running on port ${port}`);
-        });
-    } catch (err) {
-        console.error("Error connecting to MongoDB:", err);
-    } finally {
-        await client.close();
-    }
-};
-
-connectToMongoDB();
 
