@@ -4,7 +4,9 @@
   "description": "Nervesparks assignment",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.mjs",
+    "seed": "node src/utils/seed.mjs"
   },
   "author": "Shivam Pandey",
   "license": "ISC",
