@@ -11,7 +11,7 @@ const dbName = "car_dealership_db";
 
 
 
-const client = new MongoClient(uri,  {
+const client = new MongoClient(uri, {
     serverApi: {
         version: ServerApiVersion.v1,
         strict: true,
@@ -24,7 +24,7 @@ const connectToMongoDB = async () => {
     try {
         await client.connect();
         console.log("Connected to MongoDB");
-        const database = client.db(dbName); // Replace "dbname" with your database name
+        const database = await client.db(dbName); // Replace "dbname" with your database name
 
         // Attach database object to the route handlers
         app.use((req, res, next) => {
@@ -46,7 +46,10 @@ const connectToMongoDB = async () => {
         });
     } catch (err) {
         console.error("Error connecting to MongoDB:", err);
+    } finally {
+        await client.close();
     }
-    connectToMongoDB();
 };
+
+connectToMongoDB();
 
