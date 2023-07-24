@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 
 class Dealership {
     constructor(database) {
-        this.collection = database.collection("dealership");
+        this.collection = database.collection("dealerships");
     }
 
     async getDealershipByEmail(email) {

@@ -1,11 +1,11 @@
 // userController.mjs
 import { ObjectId } from "mongodb";
-
+import { formatError } from '../utils/error.mjs';
 // Route handler to get all cars owned by a user
-export const viewVehiclesOwnedByUser = async (req, res) => {
+const viewVehiclesOwnedByUser = async (req, res) => {
   try {
-    const userEmail = req.params.userEmail; 
-    const user = await req.database.collection("user").findOne({ user_email: userEmail });
+    const userEmail = req.params.userEmail;
+    const user = await req.database.collection("users").findOne({ user_email: userEmail });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -25,10 +25,10 @@ export const viewVehiclesOwnedByUser = async (req, res) => {
 };
 
 // Route handler to view all deals on a certain car
-export const viewAllDealsOnCar = async (req, res) => {
+const viewAllDealsOnCar = async (req, res) => {
   try {
     const carId = req.params.carId;
-    const deals = await req.database.collection("deal").find({ car_id: carId }).toArray();
+    const deals = await req.database.collection("deals").find({ car_id: carId }).toArray();
 
     res.json(deals);
   } catch (error) {
@@ -38,10 +38,10 @@ export const viewAllDealsOnCar = async (req, res) => {
 };
 
 // Route handler to view all dealerships with a certain car
-export const viewDealershipsWithCertainCar = async (req, res) => {
+const viewDealershipsWithCertainCar = async (req, res) => {
   try {
-    const carId = req.params.carId; 
-    const dealerships = await req.database.collection("dealership").find({ cars: carId }).toArray();
+    const carId = req.params.carId;
+    const dealerships = await req.database.collection("dealerships").find({ cars: carId }).toArray();
 
     res.json(dealerships);
   } catch (error) {
@@ -51,10 +51,10 @@ export const viewDealershipsWithCertainCar = async (req, res) => {
 };
 
 // Route handler to view all cars in a dealership
-export const viewAllCarsInDealership = async (req, res) => {
+const viewAllCarsInDealership = async (req, res) => {
   try {
-    const dealershipId = req.params.dealershipId; 
-    const dealership = await req.database.collection("dealership").findOne({ dealership_id: dealershipId });
+    const dealershipId = req.params.dealershipId;
+    const dealership = await req.database.collection("dealerships").findOne({ dealership_id: dealershipId });
 
     if (!dealership) {
       return res.status(404).json({ error: "Dealership not found" });
@@ -70,8 +70,8 @@ export const viewAllCarsInDealership = async (req, res) => {
   }
 };
 
-// Route handler to view all dealerships within a certain range based on user location (using maps API)
-export const viewDealershipWithinRange = async (req, res) => {
+
+const viewDealershipWithinRange = async (req, res) => {
   try {
     const userLocation = req.query.userLocation;
     // Use maps API to calculate dealerships within the specified range based on userLocation
@@ -84,11 +84,11 @@ export const viewDealershipWithinRange = async (req, res) => {
   }
 };
 
-// Route handler to view all deals from a certain dealership
-export const viewAllDealsFromDealership = async (req, res) => {
+
+const viewAllDealsFromDealership = async (req, res) => {
   try {
-    const dealershipId = req.params.dealershipId; 
-    const deals = await req.database.collection("deal").find({ dealership_id: dealershipId }).toArray();
+    const dealershipId = req.params.dealershipId;
+    const deals = await req.database.collection("deals").find({ dealership_id: dealershipId }).toArray();
 
     res.json(deals);
   } catch (error) {
@@ -98,13 +98,13 @@ export const viewAllDealsFromDealership = async (req, res) => {
 };
 
 // Route handler to allow a user to buy a car after a deal is made
-export const buyCar = async (req, res) => {
+const buyCar = async (req, res) => {
   try {
-    const { userId, dealId } = req.body; 
+    const { userId, dealId } = req.body;
 
     // Fetch the user and deal information
-    const user = await req.database.collection("user").findOne({ user_id: userId });
-    const deal = await req.database.collection("deal").findOne({ deal_id: dealId });
+    const user = await req.database.collection("users").findOne({ user_id: userId });
+    const deal = await req.database.collection("deals").findOne({ deal_id: dealId });
 
     if (!user || !deal) {
       return res.status(404).json({ error: "User or deal not found" });
@@ -113,7 +113,7 @@ export const buyCar = async (req, res) => {
     // Update the user's vehicle_info to include the purchased vehicle
     const vehicleId = deal.car_id;
     const newVehicleInfo = [...user.vehicle_info, vehicleId];
-    await req.database.collection("user").updateOne({ user_id: userId }, { $set: { vehicle_info: newVehicleInfo } });
+    await req.database.collection("users").updateOne({ user_id: userId }, { $set: { vehicle_info: newVehicleInfo } });
 
     // You can also perform other actions, such as updating the dealership's sold_vehicles list, etc.
 
@@ -124,5 +124,7 @@ export const buyCar = async (req, res) => {
   }
 };
 
-// Implement other user-related route handlers here
-// e.g., viewAllCarsInDealership, viewDealershipsWithCertainCar, and other required routes
+
+export { buyCar, viewDealershipWithinRange, viewAllCarsInDealership, viewDealershipsWithCertainCar, viewAllDealsOnCar, viewVehiclesOwnedByUser }
+
+

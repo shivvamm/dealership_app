@@ -4,7 +4,7 @@ import { formatError } from '../utils/error.mjs';
 
 class User {
     constructor(database) {
-        this.collection = database.collection("user");
+        this.collection = database.collection("users");
     }
 
     async getUserById(userId) {

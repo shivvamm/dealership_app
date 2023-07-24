@@ -3,7 +3,9 @@ import express from "express";
 import { Double, MongoClient, ServerApiVersion } from "mongodb";
 import { connectDB } from "./config/index.mjs"
 import dotenv from 'dotenv';
-import { Admin, User, Dealership, Deal, Car, SoldVehicle } from "./models/index.mjs"
+import authRoutes from "./routes/authRoutes.mjs"
+import userRoutes from "./routes/userRoutes.mjs"
+import dealershipRoutes from "./routes/dealershipRoutes.mjs"
 
 
 dotenv.config();
@@ -19,14 +21,18 @@ app.use((req, res, next) => {
     next();
 });
 
-// const adminModel = new Admin(db);
-// const userModel = new User(db);
-// const dealershipModel = new Dealership(db);
-// const dealModel = new Deal(db);
-// const carModel = new Car(db);
-// const soldVehicleModel = new SoldVehicle(db);
-
 app.use(express.json());
+
+
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
+// app.use('/dealership', dealershipRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
