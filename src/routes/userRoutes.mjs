@@ -6,7 +6,7 @@ import authenticate from '../middlewares/authenticate.mjs';
 const router = express.Router();
 
 // User routes (protected with authentication)
-router.get('/cars/dealership/:dealershipId', viewAllCarsInDealership);
+router.get('/cars/dealership/:dealershipId', authenticate, viewAllCarsInDealership);
 router.get('/dealerships/:carId', authenticate, viewDealershipsWithCertainCar);
 router.get('/vehicles', authenticate, viewVehiclesOwnedByUser);
 router.get('/dealerships/range', authenticate, viewDealershipWithinRange);
