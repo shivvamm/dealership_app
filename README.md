@@ -17,12 +17,13 @@ The assignment requirements are as follows:
 ## Folder Structure
 
 The backend application's folder structure is as follows:
-
+```
 backend-app/
 |-- src/
 | |-- config/
 | | |-- db.mjs
 | | |-- jwt.mjs
+| | |-- index.mjs
 | |-- controllers/
 | | |-- authController.mjs
 | | |-- userController.mjs
@@ -30,22 +31,29 @@ backend-app/
 | |-- middleware/
 | | |-- authenticate.mjs
 | |-- models/
-| | |-- user.mjs
-| | |-- dealership.mjs
+| | |-- User.mjs
+| | |-- Dealership.mjs
+| | |-- DeaL.mjs
+| | |-- SoldVehicles.mjs
+| | |-- Car.mjs
 | |-- routes/
 | | |-- authRoutes.mjs
 | | |-- userRoutes.mjs
 | | |-- dealershipRoutes.mjs
+| | |-- JSDoc.mjs
 | |-- utils/
 | | |-- error.mjs
-| | |-- documentation.mjs
+| | |-- seed.mjs
 | | |-- dummyData.mjs
-| |-- index.mjs
+| |-- app.mjs
+| |-- swaggerDef.mjs
 |-- .env
 |-- .gitignore
 |-- package.json
 |-- package-lock.json
-
+|-- README.md
+|-- swagger.png
+```
 markdown
 Copy code
 
@@ -87,7 +95,7 @@ Copy code
 1. Install dependencies: `npm install`
 2. Start the server: `npm start`
 3. Access the API documentation: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
-
+- ![Alt Text](./swagger.png)
 ## Technologies Used
 
 - Node.js

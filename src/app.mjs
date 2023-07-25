@@ -8,7 +8,7 @@ import userRoutes from "./routes/userRoutes.mjs"
 import dealershipRoutes from "./routes/dealershipRoutes.mjs"
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
-import swaggerDef from './swaggerDef.js'; 
+import swaggerDef from './swaggerDef.mjs'; 
 
 dotenv.config();
 const app = express();
