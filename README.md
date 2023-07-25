@@ -108,6 +108,6 @@ Copy code
 
 Please ensure you have set up the MongoDB connection string in the .env file before running the application.
 
-This README.md file provides an overview of the backend application, along with the API routes available for users and dealerships. For more detailed information on each route's functionality and data structures, please refer to the code files and JSDoc comments in the respective controllers and routes.
+This README.md file provides an overview of the backend application, along with the API routes available for users and dealerships. For more detailed information on each route's functionality and data structures, please refer to the code files and JSDoc comments in the respective JSDoc file.
 
 For the entire assignment's detailed documentation, including the implementation details, setup instructions, and more, please refer to the actual code files and comments in the project.
