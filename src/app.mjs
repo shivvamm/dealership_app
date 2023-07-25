@@ -6,7 +6,9 @@ import dotenv from 'dotenv';
 import authRoutes from "./routes/authRoutes.mjs"
 import userRoutes from "./routes/userRoutes.mjs"
 import dealershipRoutes from "./routes/dealershipRoutes.mjs"
-
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerDef from './swaggerDef.js'; 
 
 dotenv.config();
 const app = express();
@@ -24,9 +26,18 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 
+const options = {
+    swaggerDefinition: swaggerDef, 
+    apis: ['./src/routes/JSDoc.mjs'],
+  };
+
+  const swaggerSpec = swaggerJsDoc(options);
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  
+
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
-// app.use('/dealership', dealershipRoutes);
+app.use('/dealership', dealershipRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -1,4 +1,3 @@
-// src/controllers/dealershipController.mjs
 import { formatError } from '../utils/error.mjs';
 import Dealership from '../models/Dealership.mjs';
 import Cars from '../models/Car.mjs';

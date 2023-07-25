@@ -1,5 +1,6 @@
 // src/routes/dealershipRoutes.mjs
 import express from 'express';
+//  used  importing differently using default export then importing here 
 import dealershipController from '../controllers/dealershipController.mjs';
 import authenticate from '../middlewares/authenticate.mjs';
 
